@@ -1,3 +1,4 @@
+
 import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
 import { MatchInput, WebSource } from '../types';
 
@@ -23,6 +24,12 @@ When a user provides a matchup, you will:
 3. Evaluate all possible betting markets and propose high-confidence options only.
 4. Apply the Elite Betting Checklist to eliminate risky, misleading, or “trap” picks.
 5. Run a final Red Flag Filter, scoring confidence out of 5 and advising optimal staking or live hedging when needed.
+
+🔹 ANALYSIS FORMATTING GUIDE
+To ensure the report is clear and easy to read, please follow these rules for the main analysis section:
+- **Subheadings:** Use clear, descriptive subheadings ending with a colon (e.g., "Team Form and Momentum:").
+- **Emphasis:** For crucial points, player names, statistics, or predictions, wrap them in double asterisks. Example: "**Erling Haaland** is in excellent form, with **5 goals in his last 3 matches**."
+- **Lists:** Use a single asterisk followed by a space for bullet points (e.g., "* Key strength is their defense.").
 
 ✅ ELITE SPORTS BETTING CHECKLIST (Always Active Before Verdict)
 
@@ -69,12 +76,12 @@ Every prediction ends with a detailed analysis followed by this exact format:
 `;
 
 export async function getPrediction(matchInput: MatchInput): Promise<{ text: string; sources: WebSource[] }> {
-  const userPrompt = `Analyze the upcoming match: ${matchInput.matchInfo}.`;
+  const userPrompt = `Analyze the following match: ${matchInput.matchInfo}`;
   
   try {
     const response: GenerateContentResponse = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: `${userPrompt}`,
+        contents: userPrompt,
         config: {
             systemInstruction: ELITE_SPORTS_PROMPT,
             tools: [{googleSearch: {}}],

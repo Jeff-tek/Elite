@@ -1,3 +1,4 @@
+
 import React, { useState, useCallback } from 'react';
 import { MatchInput, WebSource } from './types';
 import { getPrediction } from './services/geminiService';
@@ -17,8 +18,8 @@ function App(): React.ReactNode {
   const [error, setError] = useState<string | null>(null);
 
   const handlePrediction = useCallback(async () => {
-    if (!matchInput.matchInfo) {
-      setError('Please enter the match info.');
+    if (!matchInput.matchInfo.trim()) {
+      setError('Please enter match information.');
       return;
     }
     setIsLoading(true);

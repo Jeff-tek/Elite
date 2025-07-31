@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { MatchInput } from '../types';
 
@@ -9,8 +10,9 @@ interface MatchInputFormProps {
 }
 
 const MatchInputForm: React.FC<MatchInputFormProps> = ({ matchInput, setMatchInput, onSubmit, isLoading }) => {
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setMatchInput({ matchInfo: e.target.value });
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
+    setMatchInput(prev => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -21,17 +23,21 @@ const MatchInputForm: React.FC<MatchInputFormProps> = ({ matchInput, setMatchInp
   return (
     <form onSubmit={handleSubmit} className="bg-slate-800/50 p-6 rounded-xl border border-slate-700 space-y-5 shadow-lg">
       <div>
-        <label htmlFor="matchInfo" className="block text-sm font-medium text-slate-400 mb-1">Match Info</label>
-        <input
-          type="text"
+        <label htmlFor="matchInfo" className="block text-sm font-medium text-slate-400 mb-2">
+          Match Info
+        </label>
+        <textarea
           id="matchInfo"
           name="matchInfo"
           value={matchInput.matchInfo}
           onChange={handleChange}
-          placeholder="e.g., Manchester City vs Arsenal, Premier League"
-          className="w-full bg-slate-700/50 border border-slate-600 rounded-md py-2 px-3 text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition"
+          placeholder="e.g., Premier League, England. Manchester City vs Arsenal, 2024-10-26 15:00 UTC"
+          className="w-full bg-slate-700/50 border border-slate-600 rounded-md py-2 px-3 text-white placeholder-slate-500 focus:ring-2 focus:ring-cyan-500 focus:border-cyan-500 transition h-28 resize-none"
           required
         />
+        <p className="text-xs text-slate-500 mt-2 px-1">
+            Provide the teams, competition, and any other relevant details for the analysis.
+        </p>
       </div>
       <button
         type="submit"
